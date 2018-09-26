@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>octopoda</title>
+		<link rel="stylesheet" href="css/styles.css">
+	</head>
+	<body>
+		<div id="page">
+			<h1>octopoda</h1>
+			<p>A minimal form-handler and email-sender.</p>
+			<form action="/register" id="register">
+				<h2>get started</h2>
+				<p>Enter your email address to receive an octopoda API key.</p>
+				<label>
+					Email address
+					<input type="email" name="email">
+				</label>
+				<input type="submit" value="Sign up">
+				<div id="response"></div>
+			</form>
+		</div>
+		<script src="js/jquery.js"></script>
+		<script src="js/ui.js"></script>
+	</body>
+</html>

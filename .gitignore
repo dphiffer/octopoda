@@ -3,3 +3,4 @@
 /data/*.db
 /node_modules
 /config.js
+/public/js/jquery.js

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/dphiffer/octopoda#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "jquery": "^3.3.1",
     "nodemailer": "^4.6.8",
     "sqlite3": "^4.0.2"
   }

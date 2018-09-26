@@ -28,9 +28,13 @@ if (fs.existsSync(api_keys_path)) {
 }
 
 const app = express();
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.send('Please try again as a POST request.'));
+if (! fs.existsSync('public/js/jquery.js')) {
+	fs.copyFileSync('node_modules/jquery/dist/jquery.js', 'public/js/jquery.js');
+	console.log('installed jquery.js');
+}
 
 function email_key(email, key, callback) {
 
@@ -42,6 +46,14 @@ function email_key(email, key, callback) {
 
 Your Octopoda API key is:
 ${key}
+
+Example HTML:
+<form action="${config.url}/submit" method="post">
+	<input type="hidden" name="_key" value="${key}">
+	<input type="text" name="name">
+	<input type="email" name="email">
+	<input type="submit" value="Subscribe">
+</form>
 
 Enjoy!`
 	};
@@ -64,11 +76,8 @@ app.post('/register', (req, res) => {
 
 	const email = req.body.email;
 
-	if (api_keys[email]) {
-		if (api_keys[email].status != 'active') {
-			return res.send('Sorry, your API key inactive.');
-		}
-		return email_key(email, api_keys[email].key, (msg) => {
+	if (api_keys.users[email]) {
+		return email_key(email, api_keys.users[email].key, (msg) => {
 			res.send(msg);
 		});
 	}
@@ -103,26 +112,25 @@ app.post('/register', (req, res) => {
 
 app.post('/submit', (req, res) => {
 
-	if (! req.body.api_key) {
-		res.send('Sorry, you need to include an api_key.');
+	if (! req.body._key) {
+		res.send("Sorry, you need to include a '_key' param.");
 		return;
 	}
 
-	const key = req.body.api_key;
+	const key = req.body._key;
 	if (! api_keys.keys[key]) {
-		res.send('Sorry that api_key is invalid.');
+		res.send('Sorry that API key is invalid.');
 		return;
 	}
 
 	if (api_keys.keys[key].status != 'active') {
-		res.send('Sorry that api_key is not active.');
+		res.send('Sorry that API key is not active.');
 		return;
 	}
 
 	const fields = [];
-	const api_key = req.body.api_key;
 	for (let field in req.body) {
-		if (field == 'api_key') {
+		if (field.substr(0, 1) == '_') {
 			continue;
 		}
 		fields.push(field);
