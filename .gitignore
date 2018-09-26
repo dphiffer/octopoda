@@ -1,0 +1,5 @@
+.DS_Store
+/data/api_keys.json
+/data/*.db
+/node_modules
+/config.js
