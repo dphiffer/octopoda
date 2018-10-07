@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const fs = require('fs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -30,6 +31,7 @@ if (fs.existsSync(api_keys_path)) {
 const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 if (! fs.existsSync('public/js/jquery.js')) {
 	fs.copyFileSync('node_modules/jquery/dist/jquery.js', 'public/js/jquery.js');

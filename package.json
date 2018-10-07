@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dphiffer/octopoda#readme",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
     "nodemailer": "^4.6.8",
